@@ -6,12 +6,13 @@
 | - | - |
 | ORIGIN_USER | root |
 | ORIGIN_PASS | password |
-| ORIGIN_DB_NAME | development_database |
+| ORIGIN_DB_NAME | production_database |
 
 ### New MySQL Image
 | key | val |
 | - | - |
 | MYSQL_ROOT_PASSWORD | password |
+| NEW_DB_NAME | development_database |
 
 ### AWS CLI
 | key | val |

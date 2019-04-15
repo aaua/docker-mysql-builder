@@ -143,7 +143,6 @@ log '* MySQL Dumping'
 mysqldump -h$TMP_CLUSTER_ENDPOINT -P$TMP_CLUSTER_PORT -u$ORIGIN_USER -p$ORIGIN_PASS $ORIGIN_DB_NAME -d --databases --default-character-set=binary > schema.sql
 mysqldump -h$TMP_CLUSTER_ENDPOINT -P$TMP_CLUSTER_PORT -u$ORIGIN_USER -p$ORIGIN_PASS $ORIGIN_DB_NAME -t --default-character-set=binary > data.sql
 
-
 ################
 #
 # Delete RDS
@@ -179,8 +178,9 @@ until mysqladmin ping -h127.0.0.1 -uroot --silent; do
 done
 
 log '* Import MySQL'
+sed -i -e "s/\`${ORIGIN_DB_NAME}\`/\`${NEW_DB_NAME}\`/g" schema.sql
 mysql -h127.0.0.1 -uroot -p$MYSQL_ROOT_PASSWORD < schema.sql
-mysql -h127.0.0.1 -uroot -p$MYSQL_ROOT_PASSWORD $ORIGIN_DB_NAME < data.sql
+mysql -h127.0.0.1 -uroot -p$MYSQL_ROOT_PASSWORD $NEW_DB_NAME < data.sql
 
 log '* Commit Docker Image'
 docker stop $TMP_CONTAINER
