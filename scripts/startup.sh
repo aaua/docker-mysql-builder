@@ -127,7 +127,11 @@ done
 # Masking Data
 #
 ################
-# TODO: masking sql
+log '* Masking Data'
+for file in `\find ./masking_sql/*.sql -maxdepth 1 -type f`; do
+  log $file
+  mysql -h$TMP_CLUSTER_ENDPOINT -P$TMP_CLUSTER_PORT -u$ORIGIN_USER -p$ORIGIN_PASS $ORIGIN_DB_NAME < $file
+done
 
 
 ################
@@ -138,7 +142,6 @@ done
 log '* MySQL Dumping'
 mysqldump -h$TMP_CLUSTER_ENDPOINT -P$TMP_CLUSTER_PORT -u$ORIGIN_USER -p$ORIGIN_PASS $ORIGIN_DB_NAME -d --databases --default-character-set=binary > schema.sql
 mysqldump -h$TMP_CLUSTER_ENDPOINT -P$TMP_CLUSTER_PORT -u$ORIGIN_USER -p$ORIGIN_PASS $ORIGIN_DB_NAME -t --default-character-set=binary > data.sql
-
 
 
 ################
